@@ -14,10 +14,6 @@ jobs:
         with:
           ruby-version: 2.7.x
       - name: Build and run tests
-        env:
-          DATABASE_URL: postgres://postgres:@localhost:5432/gifts_api_test
-          RAILS_ENV: test
-          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           docker-compose build
           docker-compose run --rm test rspec
