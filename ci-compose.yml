@@ -30,8 +30,7 @@ services:
     working_dir: ${PWD:-/srv/gifts-challenge}
     command: rspec
     depends_on:
-      - postgres
-      - elasticsearch
+      - db
     environment:
       CI: "true"
 
