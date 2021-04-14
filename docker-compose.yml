@@ -10,25 +10,47 @@ services:
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
 
-  api:
-    build: .
-
-    # Keep the stdin open, so we can attach to our app container's process
-    # and do things such as byebug, etc:
+  # The job processor container - we'll use this as a base for the rest of the
+  # containers:
+  test: &app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+      - DEVELOPER_UID=${UID:-1000}
+      - DEVELOPER_USER=${USER:-you}
+    volumes:
+      - .:/app
     stdin_open: true
-    # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
-    environment:
+
+    depends_on:
+    - db
+
+    # Specify environment variables available for our app containers. We'll leave
+    # a YML anchor in case we need to override or add more variables if needed on
+    # each app container:
+    environment: &app_environment
       # We'll set the DATABASE_URL environment variable for the app to connect
       # to our postgres container - no need to use a 'config/database.yml' file.
-      DATABASE_HOST_URL: ${DATABASE_URL:-SOME_DATABASE_URL}
+      DATABASE_HOST_URL: ${DATABASE_HOST:-SOME_DATABASE_URL}
       DATABASE_USERNAME: ${DATABASE_USERNAME:-SOME_DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-SOME_DATABASE_PASSWORD}
 
+      # We'll set the RAILS_ENV and RACK_ENV environment variables to
+      # 'development', so our app containers will start in 'development' mode
+      # on this compose project:
+      RAILS_ENV: test
+      RACK_ENV: test
+      RAILS_LOG_TO_STDOUT: "true"
+
+
+  api:
+    <<: *app
     command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    volumes:
-      - .:/app
+    environment:
+      <<: *app_environment
+      RAILS_ENV: development
+      RACK_ENV: development
     ports:
       - "3000:3000"
-    depends_on:
-      - db
