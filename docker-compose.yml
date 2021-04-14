@@ -19,8 +19,6 @@ services:
     # Enable sending signals (CTRL+C, CTRL+P + CTRL+Q) into the container:
     tty: true
     environment:
-      # We'll set the DATABASE_URL environment variable for the app to connect
-      # to our postgres container - no need to use a 'config/database.yml' file.
       DATABASE_HOST_URL: ${DATABASE_URL:-SOME_DATABASE_URL}
       DATABASE_USERNAME: ${DATABASE_USERNAME:-SOME_DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-SOME_DATABASE_PASSWORD}

@@ -90,7 +90,7 @@ end
 @config ||= begin
   require 'yaml'
 
-  config = YAML.load %x[envsubst < ci.yml]
+  config = YAML.load %x[envsubst < ci-compose.yml]
 rescue
   puts config
   exit 1
