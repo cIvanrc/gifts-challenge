@@ -21,8 +21,6 @@ services:
         DEVELOPER_UID: ${UID:-1000} # Keep in mind, most CI/CD environments will have this variable unset!
         DEVELOPER_USERNAME: ${USER:-you}
       cache_from:
-        - docker.pkg.github.com/${GITHUB_REPOSITORY}/gifts-challenge:testing-${GIT_COMMIT_SHORT_SHA}
-        - docker.pkg.github.com/${GITHUB_REPOSITORY}/gifts-challenge:testing-${TAG_SAFE_BRANCH}
         - docker.pkg.github.com/${GITHUB_REPOSITORY}/gifts-challenge:testing
     volumes:
       - .:${PWD:-/srv/gifts-challenge}:delegated # Mounts the app code
