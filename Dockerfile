@@ -16,6 +16,7 @@ RUN set -ex && apk add --no-cache \
   ca-certificates \
   libpq \
   openssl \
+  less \
   postgresql-dev \
   tzdata \
   libxslt-dev libxml2-dev libxml2-dev curl-dev
