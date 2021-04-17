@@ -36,6 +36,7 @@ services:
       DATABASE_HOST_URL: ${DATABASE_HOST:-SOME_DATABASE_URL}
       DATABASE_USERNAME: ${DATABASE_USERNAME:-SOME_DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-SOME_DATABASE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:-SOME_JWT}
 
       # We'll set the RAILS_ENV and RACK_ENV environment variables to
       # 'development', so our app containers will start in 'development' mode
