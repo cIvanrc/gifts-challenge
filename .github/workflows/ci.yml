@@ -21,6 +21,8 @@ jobs:
         with:
           ruby-version: 2.7.x
       - name: Build and run tests
+        env:
+          DATABASE_HOST_URL: ${{ secrets.DATABASE_HOST_URL }}
         run: |
           docker-compose build
           docker-compose run --rm test rspec
