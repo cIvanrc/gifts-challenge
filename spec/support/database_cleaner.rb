@@ -1,12 +1,10 @@
-require "database_cleaner"
-
-DatabaseCleaner.allow_remote_database_url = true
+require 'database_cleaner/active_record'
 
 RSpec.configure do |config|
   config.before(:suite) do
-    DatabaseCleaner.clean_with :truncation, except: %w(ar_internal_metadata)
+    DatabaseCleaner.clean_with(:truncation)
   end
-  
+
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
   end
@@ -15,7 +13,7 @@ RSpec.configure do |config|
     DatabaseCleaner.start
   end
 
-  config.before(:each) do
+  config.after(:each) do
     DatabaseCleaner.clean
   end
 end
