@@ -1,16 +1,16 @@
-version: '3.4'
+version: '3.7'
 volumes:
   dbdata:
 services:
   db:
     image: postgres:13.1
+    hostname: postgres
     ports:
       - "5432:5432"
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
     environment: &db_environment
-      DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@postgres:5432/
-
+      DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@localhost:5432/
   # The job processor container - we'll use this as a base for the rest of the
   # containers:
   test: &app
