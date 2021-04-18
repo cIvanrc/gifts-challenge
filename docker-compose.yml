@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 volumes:
   dbdata:
 services:
@@ -9,7 +9,8 @@ services:
       - "5432:5432"
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
-
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
   # The job processor container - we'll use this as a base for the rest of the
   # containers:
   test: &app
@@ -25,17 +26,16 @@ services:
     tty: true
 
     depends_on:
-    - db
+      - db
 
     # Specify environment variables available for our app containers. We'll leave
     # a YML anchor in case we need to override or add more variables if needed on
     # each app container:
     environment: &app_environment
-      # We'll set the DATABASE_URL environment variable for the app to connect
-      # to our postgres container - no need to use a 'config/database.yml' file.
-      DATABASE_HOST_URL: ${DATABASE_HOST:-SOME_DATABASE_URL}
-      DATABASE_USERNAME: ${DATABASE_USERNAME:-SOME_DATABASE_USERNAME}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-SOME_DATABASE_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET:-SOME_JWT}
+      DATABASE_HOST_URL: ${DATABASE_HOST:-postgres}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-postgres}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-postgres}
 
       # We'll set the RAILS_ENV and RACK_ENV environment variables to
       # 'development', so our app containers will start in 'development' mode
