@@ -26,9 +26,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Run tests
+      - name: Build docker
         run: |
           docker-compose build
+
+      - name: Setup test database
+        run: |
+          docker-compose run --rm test rails db:setup
+
+      - name: Run tests
+        run: |
           docker-compose run --rm test rspec
 
   # Push image to GitHub Packages.
