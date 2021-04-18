@@ -28,6 +28,7 @@ jobs:
 
       - name: Run tests
         run: |
+          docker-compose build
           docker-compose run --rm test rspec
 
   # Push image to GitHub Packages.
