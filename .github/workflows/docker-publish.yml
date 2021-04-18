@@ -28,7 +28,8 @@ jobs:
 
       - name: Run tests
         run: |
-          rspec
+          docker-compose build
+          docker-compose run --rm -e DATABASE_HOST_URL=${{ secrets.DATABASE_HOST_URL }} DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }} DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}  test rspec
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
