@@ -4,7 +4,6 @@ volumes:
 services:
   db:
     image: postgres:13.1
-    hostname: postgres
     ports:
       - "5432:5432"
     volumes:
@@ -34,9 +33,6 @@ services:
       # We'll set the DATABASE_URL environment variable for the app to connect
       # to our postgres container - no need to use a 'config/database.yml' file.
       DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@postgres:5432/
-      DATABASE_HOST_URL: ${DATABASE_HOST:-SOME_DATABASE_URL}
-      DATABASE_USERNAME: ${DATABASE_USERNAME:-SOME_DATABASE_USERNAME}
-      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-SOME_DATABASE_PASSWORD}
       JWT_SECRET: ${JWT_SECRET:-SOME_JWT}
 
       # We'll set the RAILS_ENV and RACK_ENV environment variables to
