@@ -1,16 +1,31 @@
 require 'rails_helper'
 
 describe 'Authentication', type: :request do
-  describe 'Post /authenticate' do
-    let(:user) { create(:user, username: 'username_example') }
+  context 'on success' do
+    let(:user) { create(:user, email: 'example_email@fake.com', password: 'password') }
+    let(:user_params) { { user: { email: user.email, password: user.password }} }
 
-    it 'authenticates the client' do
-      post '/api/v1/authenticate', params: { username: user.username, password: 'password_example' }
+    it 'authenticates the client response a jwt' do
+      post api_v1_auth_path, params: user_params
 
       expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body)).to eq({
-        'token' => 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.KLlCfaFvDeK1aFuEYfNZvAw1zng2RoOkjv4uj_t5ZKg'
-      })
+      expect(JSON.parse(response.body).include?('token')).to eq true
+    end
+  end
+
+  context 'on fail' do
+    let(:invalid_email) { 'invalid_email@fake.com' }
+    let(:invalid_password) { 'invalid_password'  }
+    let(:invalid_params) { { user: { email: invalid_email, password: invalid_password }} }
+
+    it 'authenticates the client response errors' do
+      post api_v1_auth_path, params: invalid_params
+
+      expect(response).to have_http_status(:unauthorized)
+
+      response_body = JSON.parse(response.body)
+      expect(response_body.include?('errors')).to eq true
+      expect(response_body['errors'].first).to eq 'Invalid email or password'
     end
   end
 end
