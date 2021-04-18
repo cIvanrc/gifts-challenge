@@ -9,8 +9,8 @@ services:
       - "5432:5432"
     volumes:
       - 'dbdata:/var/lib/postgresql/data'
-    environment: &db_environment
-      DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@localhost:5432/
+    environment:
+      POSTGRES_PASSWORD: 3x4mpl3P455w0rd
   # The job processor container - we'll use this as a base for the rest of the
   # containers:
   test: &app
@@ -32,7 +32,7 @@ services:
     # a YML anchor in case we need to override or add more variables if needed on
     # each app container:
     environment: &app_environment
-      <<: *db_environment
+      DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@postgres:5432/
       JWT_SECRET: ${JWT_SECRET:-SOME_JWT}
 
       # We'll set the RAILS_ENV and RACK_ENV environment variables to
