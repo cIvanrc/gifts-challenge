@@ -34,6 +34,7 @@ services:
       # We'll set the DATABASE_URL environment variable for the app to connect
       # to our postgres container - no need to use a 'config/database.yml' file.
       DATABASE_URL: postgres://postgres:3x4mpl3P455w0rd@postgres:5432/
+      JWT_SECRET: ${JWT_SECRET:-SOME_JWT}
 
       # We'll set the RAILS_ENV and RACK_ENV environment variables to
       # 'development', so our app containers will start in 'development' mode
