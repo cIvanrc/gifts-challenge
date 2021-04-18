@@ -27,13 +27,9 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Run tests
-        env:
-          DATABASE_HOST_URL: ${{ secrets.DATABASE_HOST_URL }}
         run: |
           docker-compose build
-          docker-compose run --rm api echo ENV
-          docker-compose run --rm test echo ENV
-          docker-compose run --rm test rspec
+          docker-compose run --rm -e DATABASE_HOST_URL=${{ secrets.DATABASE_HOST_URL }} test rspec
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
