@@ -8,8 +8,12 @@ describe 'Authentication', type: :request do
     it 'authenticates the client response a jwt' do
       post api_v1_auth_path, params: user_params
 
+      response_body = JSON.parse(response.body)
       expect(response).to have_http_status(:created)
-      expect(JSON.parse(response.body).include?('token')).to eq true
+      expect(response_body.include?('token')).to eq true
+
+      token = response_body['token']
+      expect { JsonWebToken.decode(token) }.to_not raise_error
     end
   end
 
