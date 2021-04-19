@@ -18,6 +18,17 @@ class Api::V1::RecipientsController < ApplicationController
     end
   end
 
+  def update
+    recipient = Recipient.find(params[:id])
+
+    if recipient.update(recipient_params)
+      render json: recipient, status: :accepted
+    else
+      render json: recipient.errors, status: :unprocessable_entity
+    end
+  end
+
+  private
   def recipient_params
     params.require(:recipient).permit(:name, :address)
   end
