@@ -28,6 +28,16 @@ class Api::V1::RecipientsController < ApplicationController
     end
   end
 
+  def destroy
+    recipient = Recipient.find(params[:id])
+
+    if recipient.destroy
+      render json: { message: 'Recipient deleted successfully' }, status: :accepted
+    else
+      render json: { errors: recipient.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
   def recipient_params
     params.require(:recipient).permit(:name, :address)
