@@ -24,4 +24,16 @@ RSpec.describe School, type: :model do
       end
     end
   end
+
+  context 'on Destroy' do
+    it 'can be destroyed successfully' do
+      subject.save
+
+      expect(subject.persisted?).to eq true
+      subject.destroy
+
+      expect(School.exists?(subject.id)).to eq false
+      expect(subject.persisted?).to eq false
+    end
+  end
 end
