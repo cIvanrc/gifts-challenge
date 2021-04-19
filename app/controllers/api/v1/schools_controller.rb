@@ -12,6 +12,16 @@ class Api::V1::SchoolsController < ApplicationController
     end
   end
 
+  def update
+    school = School.find(params[:id])
+
+    if school.update(school_params)
+      render json: school, status: :accepted
+    else
+      render json: { errors: school.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
   def school_params
     params.require(:school).permit(:name, :address)
