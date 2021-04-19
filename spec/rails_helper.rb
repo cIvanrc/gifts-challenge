@@ -8,6 +8,7 @@ require 'rspec/rails'
 require 'support/database_cleaner.rb'
 require 'support/factory_bot.rb'
 require 'support/shoulda_matchers.rb'
+require 'support/json_web_token_helper.rb'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -34,6 +35,8 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 RSpec.configure do |config|
+  # helper to generate the headers with the jwt
+  config.include JsonWebTokenHelper
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
