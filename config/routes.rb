@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post 'auth' => 'authentication#create'
 
-      resources :schools
+      resources :schools, only: %i[create update destroy]
     end
   end
 end
