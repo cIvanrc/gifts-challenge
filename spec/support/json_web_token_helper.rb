@@ -8,6 +8,9 @@ module JsonWebTokenHelper
   end
 
   def json
-    JSON.parse(response.body).with_indifferent_access
+    response_body = JSON.parse(response.body)
+    return response_body if response_body.class.name == 'Array'
+
+    response_body.with_indifferent_access
   end
 end
