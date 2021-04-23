@@ -1,0 +1,2 @@
+class Hoodie < Gift
+end
